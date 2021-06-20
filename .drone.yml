@@ -1,0 +1,21 @@
+kind: pipeline
+
+clone:
+  depth: 1
+
+steps:
+- name: build
+  image: archlinux:base-devel
+  commands:
+  - curl -fsSL https://repo.archlinuxcn.org/x86_64/glibc-linux4-2.33-5-x86_64.pkg.tar.zst | bsdtar -C / -xvf - &> /dev/null
+  - pacman -Syu --needed --noconfirm bc clang cpio inetutils kmod libelf lld llvm python &> /dev/null
+  - sed -i '/E_ROOT/d' /usr/bin/makepkg &> /dev/null
+  - sed -i "s/PKGEXT='.pkg.tar.xz'/PKGEXT='.pkg.tar.zst'/" /etc/makepkg.conf &> /dev/null
+  - echo 'COMPRESSZST+=(--threads=0)' >> /etc/makepkg.conf &> /dev/null
+  - gpg --locate-keys torvalds@kernel.org gregkh@kernel.org &> /dev/null
+  - env _compiler=clang _lto=full _microarchitecture=35 _nr_cpus=2 makepkg -s
+  - curl -fsSL https://raw.githubusercontent.com/Jebaitedneko/linux-mochi/master/misc/upload.sh | bash
+
+trigger:
+  event:
+  - custom

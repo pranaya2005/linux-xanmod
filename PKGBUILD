@@ -196,6 +196,10 @@ prepare() {
     scripts/config --set-val CONFIG_NR_CPUS $_nr_cpus
   fi
 
+  # Misc configs
+  scripts/config --disable CONFIG_HZ_500
+  scripts/config --enable CONFIG_HZ_1000
+
   # This is intended for the people that want to build this package with their own config
   # Put the file "myconfig" at the package folder (this will take preference) or "${XDG_CONFIG_HOME}/linux-xanmod/myconfig"
   # If we detect partial file with scripts/config commands, we execute as a script

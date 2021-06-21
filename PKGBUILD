@@ -201,7 +201,7 @@ prepare() {
 
 build() {
   cd linux-${_major}
-  make LLVM=$_LLVM LLVM_IAS=$_LLVM all
+  make -j$(nproc --all) LLVM=$_LLVM LLVM_IAS=$_LLVM all
 }
 
 _package() {

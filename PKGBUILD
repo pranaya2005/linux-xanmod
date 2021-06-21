@@ -56,7 +56,27 @@ _makenconfig=
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 
-pkgbase=linux-xanmod
+# Change package name according to microarchitecure
+if [ "${_compiler}" = "gcc" ]; then
+  local _march=-$(
+    case "${_microarchitecture}" in
+      0 | 92 | 93 | 94)
+        grep "${_microarchitecture})" choose-gcc-optimization.sh |\
+        grep -Eo "CONFIG_GENERIC_CPU.*" |\
+        cut -f1 -d ' ' |\
+        sed "s/CONFIG_//g;s/_CPU//g;s/[A-Z]/\L&/g"
+        ;;
+      *)
+        grep "${_microarchitecture})" choose-gcc-optimization.sh |\
+        grep -Eo "CONFIG_M.*" |\
+        cut -f1 -d ' ' |\
+        sed "s/CONFIG_M//g;s/[A-Z]/\L&/g"
+        ;;
+    esac
+  )
+fi
+
+pkgbase=linux-xanmod-pranaya2005-${_compiler}${_march}
 _major=5.13
 pkgver=${_major}.10
 _branch=5.x

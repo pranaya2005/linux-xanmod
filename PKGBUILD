@@ -39,6 +39,11 @@ if [ -z ${_compiler+x} ]; then
   _compiler=gcc
 fi
 
+## Choose between full LTO and ThinLTO (CLANG only) (default is ThinLTO)
+if [ -z ${_lto+x} ]; then
+  _lto=thin
+fi
+
 # Compile ONLY used modules to VASTLY reduce the number of modules built
 # and the build time.
 #
@@ -145,10 +150,15 @@ prepare() {
 
   # Applying configuration
   cp -vf CONFIGS/xanmod/${_compiler}/config .config
-  # enable LTO_CLANG_THIN
+  # enable LTO_CLANG
   if [ "${_compiler}" = "clang" ]; then
+    if [ "${_lto}" = "full" ]; then
+    scripts/config --disable LTO_CLANG_THIN
+    scripts/config --enable LTO_CLANG_FULL
+    elif [ "${_lto}" = "thin" ]; then
     scripts/config --disable LTO_CLANG_FULL
     scripts/config --enable LTO_CLANG_THIN
+    fi
     _LLVM=1
   fi
 

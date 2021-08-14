@@ -104,6 +104,7 @@ _srcname="linux-${pkgver}-xanmod${xanmod}"
 source=("https://cdn.kernel.org/pub/linux/kernel/v${_branch}/linux-${_major}.tar."{xz,sign}
         "https://github.com/xanmod/linux/releases/download/${pkgver}-xanmod${xanmod}/patch-${pkgver}-xanmod${xanmod}.xz"
         choose-gcc-optimization.sh
+        "https://raw.githubusercontent.com/bkerler/mtkclient/f8476d2705b7527bafeb265d5fa74db4ae3b43e6/Setup/Linux/kernelpatches/disable-usb-checks-5.10.patch"
         "https://raw.githubusercontent.com/hamadmarri/cacule-cpu-scheduler/9407d9484c6b9a695d6629e9f4a5966560803039/scripts/apply_suggested_configs.sh"
         )
         #"patch-${pkgver}-xanmod${xanmod}.xz::https://sourceforge.net/projects/xanmod/files/releases/stable/${pkgver}-xanmod${xanmod}/patch-${pkgver}-xanmod${xanmod}.xz/download"
@@ -124,6 +125,7 @@ sha256sums=('3f6baa97f37518439f51df2e4f3d65a822ca5ff016aa8e60d2cc53b95a6c89d9'
             'SKIP'
             '670b25ac7d41d0867339fd896fa6e8d98d2ce1f521f04072b22810bac5d87076'
             '1ac18cad2578df4a70f9346f7c6fccbb62f042a0ee0594817fdef9f2704904ee'
+            '5a53f1887f2d5836e46440d978a6a15af5b762bcaf8756bb65efe33b9975ba8b'
             '5b7b80d15b856e49ddc4e5f27df24a37af2c939bae13d3cf84ddbbb5dbd203dd'
             )
 
